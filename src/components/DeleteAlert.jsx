@@ -8,7 +8,7 @@ const DeleteAlert = ({destination}) => {
     const {_id,destinationName} = destination;
 
     const handleDelete = async () =>{
-        const res = await fetch(`http://localhost:5000/destination/${_id}`,{
+        const res = await fetch(`${process.env.SERVER_URL}/destination/${_id}`,{
             method : 'DELETE',
             headers: {
                 'component-type' : 'application/json'

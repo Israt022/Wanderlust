@@ -1,7 +1,7 @@
 import DestinationCard from "@/components/DestinationCard";
 
 const Destinations = async() => {
-    const res = await fetch('http://localhost:5000/destination');
+    const res = await fetch(`${process.env.SERVER_URL}/destination`);
     const destinations = await res.json();
     return (
         <div className='container mx-auto'>

@@ -1,11 +1,24 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
+import { Avatar, Button } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { 
+      data: session, 
+      isPending, //loading state
+      error, //error object
+      refetch //refetch the session
+  } = authClient.useSession()
+  const user =session?.user;
+
+  const handleLogout = async()=>{
+    await authClient.signOut();
+  }
 
   const links = (
     <>
@@ -19,11 +32,28 @@ const Navbar = () => {
 
   const rLinks = (
     <>
-      <li><Link href="/profile">Profile</Link></li>
+      
       <li><Link href="/login">Login</Link></li>
-      <li><Link href="/sign-up">Sign up</Link></li>
+      <li><Link href="/signup">Sign up</Link></li>
     </>
   );
+  const loginL = (
+    <>
+      <li><Link href="/profile">Profile</Link></li>
+      <li>
+        <Avatar>
+          <Avatar.Image alt="John Doe" src={user?.image} />
+          <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
+        </Avatar>
+      </li>
+      <li>
+        <Button onClick={handleLogout} variant="danger" className={"rounded-none"}>Logout</Button>
+      </li>
+    </>
+  )
+
+  
+  
 
   return (
     <nav className="shadow-sm bg-white">
@@ -42,10 +72,13 @@ const Navbar = () => {
             alt="Logo"
             width={140}
             height={60}
+            style={{ width: "auto" }}
             />
         </div>
         <ul className="hidden md:flex gap-6 items-center">
-          {rLinks}
+          {
+            user ? loginL : rLinks
+          }
         </ul>
 
         {/* Mobile Button */}
