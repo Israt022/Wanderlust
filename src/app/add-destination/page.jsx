@@ -18,7 +18,7 @@ const AddDestination = () => {
         const formData = new FormData(e.currentTarget);
         const destination = Object.fromEntries(formData.entries());
 
-        const res = await fetch(`${process.env.SERVER_URL}/destination`,{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/destination`,{
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
